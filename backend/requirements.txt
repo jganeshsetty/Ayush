@@ -21,3 +21,4 @@ openai==1.40.0
 edge-tts==7.3.1
 mongomock-motor==0.0.36
 mongomock==4.3.0
+email-validator>=2.0.0
