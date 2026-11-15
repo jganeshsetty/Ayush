@@ -310,7 +310,6 @@ async def run_notification_checks() -> None:
 
         # Clear sent notifications from previous cycle (keep last hour)
         # In production, use Redis or persistent storage
-        global _sent_notifications
         _sent_notifications.clear()
 
         # Run checks concurrently
