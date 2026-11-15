@@ -3,13 +3,14 @@ from typing import Optional
 
 from fastapi import APIRouter, Depends, HTTPException, UploadFile, File, status
 from fastapi.responses import JSONResponse
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from motor.motor_asyncio import AsyncIOMotorDatabase
 
 from backend.database import get_db
 from backend.auth import get_current_user, verify_profile_access
 from backend.models import UserInDB
 from backend.services.ai_service import parse_prescription, safety_check, voice_checkin
+from backend.rate_limiter import rate_limit
 
 router = APIRouter()
 
@@ -21,10 +22,13 @@ class SafetyCheckRequest(BaseModel):
 
 class VoiceCheckinRequest(BaseModel):
     profile_id: str
-    text: str
+    text: str = Field(..., min_length=1, max_length=500)
 
 
-@router.post("/ai/parse-prescription")
+MAX_PRESCRIPTION_SIZE = 10 * 1024 * 1024  # 10 MB
+
+
+@router.post("/ai/parse-prescription", dependencies=[Depends(rate_limit("/api/v1/ai/parse-prescription"))])
 async def parse_prescription_endpoint(
     file: UploadFile = File(...),
     current_user: UserInDB = Depends(get_current_user),
@@ -42,6 +46,12 @@ async def parse_prescription_endpoint(
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="Empty file uploaded",
+        )
+
+    if len(image_bytes) > MAX_PRESCRIPTION_SIZE:
+        raise HTTPException(
+            status_code=status.HTTP_413_REQUEST_ENTITY_TOO_LARGE,
+            detail=f"File too large. Maximum size is {MAX_PRESCRIPTION_SIZE // (1024*1024)} MB",
         )
 
     try:
@@ -63,7 +73,7 @@ async def parse_prescription_endpoint(
     return result
 
 
-@router.post("/ai/safety-check")
+@router.post("/ai/safety-check", dependencies=[Depends(rate_limit("/api/v1/ai/safety-check"))])
 async def safety_check_endpoint(
     body: SafetyCheckRequest,
     current_user: UserInDB = Depends(get_current_user),
@@ -86,7 +96,7 @@ async def safety_check_endpoint(
     return result
 
 
-@router.post("/ai/voice-checkin")
+@router.post("/ai/voice-checkin", dependencies=[Depends(rate_limit("/api/v1/ai/voice-checkin"))])
 async def voice_checkin_endpoint(
     body: VoiceCheckinRequest,
     current_user: UserInDB = Depends(get_current_user),

@@ -15,6 +15,7 @@ from backend.models import (
     CareProfileCreate,
     CareProfileResponse,
     ProfileIdResponse,
+    DeleteAccountRequest,
 )
 from backend.auth import (
     hash_password,
@@ -27,6 +28,9 @@ from backend.auth import (
     generate_profile_code,
 )
 from backend.rate_limiter import rate_limit
+from backend.logging_config import get_logger, RequestLogger
+
+logger = get_logger(__name__)
 
 
 class DeleteAccountRequest(BaseModel):
@@ -136,6 +140,13 @@ async def register(
     # Create token
     token = create_access_token({"sub": str(user_doc["_id"]), "role": user_data.role})
 
+    # Log user registration
+    RequestLogger.log_business_event(
+        logger, "user_registered",
+        user_id=str(user_doc["_id"]),
+        role=user_data.role
+    )
+
     return TokenResponse(
         token=token,
         user=user_to_response(user_doc),
@@ -184,6 +195,13 @@ async def login(
     if profile:
         profile_code = profile["profile_code"]
         profile_id = str(profile["_id"])
+
+    # Log successful login
+    RequestLogger.log_business_event(
+        logger, "user_login",
+        user_id=str(user_doc["_id"]),
+        role=user_doc["role"]
+    )
 
     return TokenResponse(
         token=token,
@@ -262,6 +280,13 @@ async def delete_account(
     await profiles.update_many(
         {"elderly_user_id": current_user.id},
         {"$set": {"deleted_at": datetime.utcnow()}}
+    )
+
+    # Log account deletion
+    RequestLogger.log_business_event(
+        logger, "user_deleted",
+        user_id=str(current_user.id),
+        role=current_user.role
     )
 
     return None

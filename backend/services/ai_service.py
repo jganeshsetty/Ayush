@@ -18,6 +18,46 @@ GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 NVIDIA_API_KEY = os.getenv("NVIDIA_API_KEY")
 
 
+def _sanitize_ai_response(text: str) -> str:
+    """
+    Strip markdown code fences and extract JSON from AI responses.
+    Handles ```json, ```, and nested code blocks.
+    """
+    text = text.strip()
+
+    # Remove markdown code fences (```json, ```python, ```, etc.)
+    if text.startswith("```"):
+        # Remove opening fence
+        text = re.sub(r"^```\w*\s*", "", text)
+        # Remove closing fence
+        text = re.sub(r"\s*```$", "", text)
+
+    # Handle case where response is wrapped in multiple fences
+    # Find first { and last } to extract JSON object
+    first_brace = text.find("{")
+    last_brace = text.rfind("}")
+    if first_brace != -1 and last_brace != -1 and last_brace > first_brace:
+        text = text[first_brace:last_brace + 1]
+
+    return text.strip()
+
+
+def _validate_ai_json(text: str) -> dict:
+    """
+    Parse and validate JSON from AI response.
+    Raises ValueError if invalid JSON or missing required fields.
+    """
+    try:
+        parsed = json.loads(text)
+    except json.JSONDecodeError as e:
+        raise ValueError(f"Invalid JSON from AI: {e}")
+
+    if not isinstance(parsed, dict):
+        raise ValueError("AI response is not a JSON object")
+
+    return parsed
+
+
 def _has_any_key() -> bool:
     return bool(GEMINI_API_KEY or GROQ_API_KEY or NVIDIA_API_KEY)
 
@@ -140,11 +180,8 @@ async def _call_gemini(prompt: str, image_bytes: bytes | None = None, system: st
         response = model.generate_content(contents)
         text = response.text or ""
         # Extract JSON from possible markdown code fences
-        text = text.strip()
-        if text.startswith("```"):
-            text = re.sub(r"^```(?:json)?\s*", "", text)
-            text = re.sub(r"\s*```$", "", text)
-        return json.loads(text)
+        text = _sanitize_ai_response(text)
+        return _validate_ai_json(text)
     except Exception as e:
         raise RuntimeError(f"Gemini call failed: {e}")
 
@@ -164,7 +201,9 @@ async def _call_groq(prompt: str, system: str | None = None) -> dict:
             temperature=0.1,
             response_format={"type": "json_object"},
         )
-        return json.loads(response.choices[0].message.content)
+        text = response.choices[0].message.content or ""
+        text = _sanitize_ai_response(text)
+        return _validate_ai_json(text)
     except Exception as e:
         raise RuntimeError(f"Groq call failed: {e}")
 
@@ -184,7 +223,9 @@ async def _call_nvidia(prompt: str, system: str | None = None) -> dict:
             temperature=0.1,
             response_format={"type": "json_object"},
         )
-        return json.loads(response.choices[0].message.content)
+        text = response.choices[0].message.content or ""
+        text = _sanitize_ai_response(text)
+        return _validate_ai_json(text)
     except Exception as e:
         raise RuntimeError(f"NVIDIA call failed: {e}")
 
@@ -323,9 +364,10 @@ async def safety_check(profile_id: str, medication_id: str | None, db: AsyncIOMo
     Cross-check target medication against patient's active medications for contraindications.
     Uses Groq primary, Gemini fallback, then NVIDIA. Returns safe/interactions.
     """
+    from bson import ObjectId
     # Fetch active medications from MongoDB
     try:
-        cursor = db.medications.find({"profile_id": profile_id, "active": True})
+        cursor = db.medications.find({"profile_id": ObjectId(profile_id), "active": True})
         active_meds = await cursor.to_list(length=100)
     except Exception:
         active_meds = []
@@ -333,7 +375,6 @@ async def safety_check(profile_id: str, medication_id: str | None, db: AsyncIOMo
     # If specific medication_id provided, fetch it as target
     target_med = None
     if medication_id:
-        from bson import ObjectId
         try:
             target_med = await db.medications.find_one({"_id": ObjectId(medication_id)})
         except Exception:

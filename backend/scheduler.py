@@ -1,5 +1,6 @@
 import asyncio
 import logging
+import html
 from datetime import datetime, date, time, timedelta
 from typing import List, Set
 from contextlib import asynccontextmanager
@@ -101,16 +102,21 @@ async def check_and_send_upcoming_doses(db: AsyncIOMotorDatabase) -> None:
                     if not recipients:
                         continue
 
-                    subject = f"Medication Reminder: {med['name']}"
+                    subject = f"Medication Reminder: {html.escape(med['name'])}"
+                    safe_med_name = html.escape(med['name'])
+                    safe_dosage = html.escape(med['dosage'])
+                    safe_time = html.escape(time_str)
+                    safe_instructions = html.escape(med.get('instructions', ''))
+                    safe_profile_name = html.escape(profile['name'])
                     body = f"""Hello,
 
 This is a reminder that it's time for a medication dose.
 
-<b>Medication:</b> {med['name']}<br>
-<b>Dosage:</b> {med['dosage']}<br>
-<b>Time:</b> {time_str}<br>
-{med.get('instructions') and f"<b>Instructions:</b> {med['instructions']}<br>"}
-<b>Profile:</b> {profile['name']}
+<b>Medication:</b> {safe_med_name}<br>
+<b>Dosage:</b> {safe_dosage}<br>
+<b>Time:</b> {safe_time}<br>
+{safe_instructions and f"<b>Instructions:</b> {safe_instructions}<br>"}
+<b>Profile:</b> {safe_profile_name}
 
 Please take your medication as prescribed.
 
@@ -190,18 +196,23 @@ async def check_and_send_missed_doses(db: AsyncIOMotorDatabase) -> None:
                     if not recipients:
                         continue
 
-                    subject = f"MISSED DOSE ALERT: {med['name']}"
+                    subject = f"MISSED DOSE ALERT: {html.escape(med['name'])}"
+                    safe_med_name = html.escape(med['name'])
+                    safe_dosage = html.escape(med['dosage'])
+                    safe_time = html.escape(time_str)
+                    safe_instructions = html.escape(med.get('instructions', ''))
+                    safe_profile_name = html.escape(profile['name'])
                     body = f"""<p style="color: #A1351D; font-weight: 600;">⚠ MISSED DOSE ALERT</p>
 
 <p>Hello,</p>
 
 <p>A scheduled medication dose was not confirmed as taken.</p>
 
-<b>Medication:</b> {med['name']}<br>
-<b>Dosage:</b> {med['dosage']}<br>
-<b>Scheduled Time:</b> {time_str}<br>
-{med.get('instructions') and f"<b>Instructions:</b> {med['instructions']}<br>"}
-<b>Profile:</b> {profile['name']}<br>
+<b>Medication:</b> {safe_med_name}<br>
+<b>Dosage:</b> {safe_dosage}<br>
+<b>Scheduled Time:</b> {safe_time}<br>
+{safe_instructions and f"<b>Instructions:</b> {safe_instructions}<br>"}
+<b>Profile:</b> {safe_profile_name}<br>
 <b>Time Elapsed:</b> ~30 minutes past scheduled time
 
 <p>Please check on the care recipient and confirm if the medication was taken.</p>
@@ -245,11 +256,11 @@ async def check_and_send_appointment_reminders(db: AsyncIOMotorDatabase) -> None
 
         if 22 <= hours_until <= 26:
             reminder_type = "appointment_24h"
-            subject = f"Appointment Tomorrow: {appt['doctor_name']}"
+            subject = f"Appointment Tomorrow: {html.escape(appt['doctor_name'])}"
             time_desc = "tomorrow"
         elif 1.5 <= hours_until <= 2.5:
             reminder_type = "appointment_2h"
-            subject = f"Appointment in 2 Hours: {appt['doctor_name']}"
+            subject = f"Appointment in 2 Hours: {html.escape(appt['doctor_name'])}"
             time_desc = "in 2 hours"
         else:
             continue
@@ -282,16 +293,22 @@ async def check_and_send_appointment_reminders(db: AsyncIOMotorDatabase) -> None
             if not recipients:
                 continue
 
+            safe_doctor = html.escape(appt['doctor_name'])
+            safe_clinic = html.escape(appt['clinic'])
+            safe_date = html.escape(appt['date'])
+            safe_time = html.escape(appt['time'])
+            safe_notes = html.escape(appt.get('notes', ''))
+            safe_profile = html.escape(profile['name'])
             body = f"""Hello,
 
 This is a reminder for an upcoming appointment.
 
-<b>Doctor:</b> {appt['doctor_name']}<br>
-<b>Clinic:</b> {appt['clinic']}<br>
-<b>Date:</b> {appt['date']}<br>
-<b>Time:</b> {appt['time']}<br>
-{appt.get('notes') and f"<b>Notes:</b> {appt['notes']}<br>"}
-<b>Profile:</b> {profile['name']}
+<b>Doctor:</b> {safe_doctor}<br>
+<b>Clinic:</b> {safe_clinic}<br>
+<b>Date:</b> {safe_date}<br>
+<b>Time:</b> {safe_time}<br>
+{safe_notes and f"<b>Notes:</b> {safe_notes}<br>"}
+<b>Profile:</b> {safe_profile}
 
 The appointment is {time_desc}.
 

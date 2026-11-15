@@ -1,6 +1,7 @@
 import os
 import smtplib
 import ssl
+import html
 from email.message import EmailMessage
 from datetime import datetime
 from typing import Optional
@@ -39,6 +40,10 @@ def create_email_html(subject: str, body: str, is_test: bool = False) -> str:
     WARM_ESSENTIAL = "#241B18"
     WARM_STONE = "#EADECE"
 
+    # Escape subject and body to prevent HTML injection
+    safe_subject = html.escape(subject)
+    safe_body = html.escape(body).replace("\n", "<br>")
+
     return f"""<!DOCTYPE html>
 <html>
 <head>
@@ -61,9 +66,9 @@ def create_email_html(subject: str, body: str, is_test: bool = False) -> str:
                     <!-- Content -->
                     <tr>
                         <td style="padding: 32px 24px;">
-                            <h2 style="margin: 0 0 16px; font-family: 'Playfair Display', Georgia, serif; font-size: 24px; font-weight: 500; color: {WARM_ESSENTIAL}; line-height: 1.3;">{subject}</h2>
+                            <h2 style="margin: 0 0 16px; font-family: 'Playfair Display', Georgia, serif; font-size: 24px; font-weight: 500; color: {WARM_ESSENTIAL}; line-height: 1.3;">{safe_subject}</h2>
                             <div style="font-size: 18px; line-height: 1.6; color: {WARM_ESSENTIAL};">
-                                {body}
+                                {safe_body}
                             </div>
 
                             {"<p style='margin: 24px 0 0; padding: 16px; background-color: " + SAGE_LIGHT + "; border-radius: 12px; border-left: 4px solid " + SAGE + "; font-size: 14px; color: #5D6B4A;'><strong>Test Email</strong> — This is a test notification from Ayush. No action required.</p>" if is_test else ""}
@@ -81,7 +86,6 @@ def create_email_html(subject: str, body: str, is_test: bool = False) -> str:
             </td>
         </tr>
     </table>
-</body>
 </html>"""
 
 
@@ -120,8 +124,10 @@ async def test_email(
     # Default to caretaker's email if not specified
     to_email = request.to or current_user.email
 
+    import html
+    safe_display_name = html.escape(current_user.display_name)
     subject = "Ayush Test Email"
-    body = f"""Hello {current_user.display_name},
+    body = f"""Hello {safe_display_name},
 
 This is a test email from Ayush to verify your SMTP configuration is working correctly.
 

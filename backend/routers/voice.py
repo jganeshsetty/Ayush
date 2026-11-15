@@ -1,17 +1,19 @@
 """Voice router: text-to-speech via edge-tts (offline, free)."""
 import logging
 
-from fastapi import APIRouter, HTTPException, status
+from fastapi import APIRouter, HTTPException, status, Depends
 from fastapi.responses import StreamingResponse
 from backend.services.voice_service import speak
+from backend.rate_limiter import rate_limit
+from backend.auth import get_current_user, UserInDB
 
 logger = logging.getLogger(__name__)
 
 router = APIRouter()
 
 
-@router.get("/voice/speak")
-async def speak_endpoint(text: str, lang: str = "en"):
+@router.get("/voice/speak", dependencies=[Depends(rate_limit("/api/v1/voice/speak")), Depends(get_current_user)])
+async def speak_endpoint(text: str, lang: str = "en", current_user: UserInDB = Depends(get_current_user)):
     """Stream synthesized speech (MP3) for the given text and language.
 
     Languages: en (English), kn (Kannada), hi (Hindi).

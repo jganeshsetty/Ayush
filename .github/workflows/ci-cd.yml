@@ -118,3 +118,4 @@ jobs:
         run: |
           echo "Pinging Vercel frontend..."
           curl --fail -I https://ayushmedicare.vercel.app || exit 1
+

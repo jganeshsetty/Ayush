@@ -12,6 +12,9 @@ from bson import ObjectId
 
 from backend.database import get_db
 from backend.models import UserInDB, CareProfileInDB, PyObjectId
+from backend.logging_config import get_logger, RequestLogger
+
+logger = get_logger(__name__)
 
 # Password hashing
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
@@ -104,7 +107,24 @@ async def get_current_user(
             headers={"WWW-Authenticate": "Bearer"},
         )
 
-    return UserInDB(**user_doc)
+    # Check if user is soft-deleted
+    if user_doc.get("deleted_at"):
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="User account has been deleted",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+
+    user = UserInDB(**user_doc)
+
+    # Log successful authentication
+    RequestLogger.log_business_event(
+        logger, "user_authenticated",
+        user_id=str(user.id),
+        request_id=None
+    )
+
+    return user
 
 
 async def get_current_caretaker(

@@ -304,6 +304,10 @@ class TestEmailResponse(BaseModel):
     error: Optional[str] = None
 
 
+class DeleteAccountRequest(BaseModel):
+    password: str = Field(..., min_length=1, description="Password confirmation for account deletion")
+
+
 # Forward references
 TokenResponse.model_rebuild()
 DashboardResponse.model_rebuild()
