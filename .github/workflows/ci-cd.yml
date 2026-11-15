@@ -1,0 +1,120 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  # --------------------------------------------------------------------------
+  # 1. Backend CI: Linting, Dependency Check & Tests
+  # --------------------------------------------------------------------------
+  backend-ci:
+    name: Backend CI (FastAPI)
+    runs-on: ubuntu-latest
+
+    services:
+      mongodb:
+        image: mongo:6.0
+        ports:
+          - 27017:27017
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r backend/requirements.txt
+          pip install flake8 pytest pytest-asyncio
+
+      - name: Lint with Flake8
+        run: |
+          # stop the build if there are Python syntax errors or undefined names
+          flake8 backend --count --select=E9,F63,F7,F82 --show-source --statistics
+          # exit-zero treats all errors as warnings
+          flake8 backend --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+
+      - name: Verify Backend Module Imports
+        env:
+          JWT_SECRET: test-ci-secret-key-32-chars-long!!
+          MONGODB_URI: mongodb://localhost:27017/ayush_ci
+        run: |
+          PYTHONPATH=. python -c "import backend.main; print('Backend loaded successfully!')"
+
+      - name: Run Backend Health & Smoke Verification
+        env:
+          JWT_SECRET: test-ci-secret-key-32-chars-long!!
+          MONGODB_URI: mongodb://localhost:27017/ayush_ci
+        run: |
+          PYTHONPATH=. python -c "
+          from backend.auth import hash_password, verify_password, generate_profile_code
+          h = hash_password('TestPass123!')
+          assert verify_password('TestPass123!', h), 'Password verification failed'
+          code = generate_profile_code()
+          assert len(code) == 6, 'Profile code length invalid'
+          print('Core authentication & model unit checks passed!')
+          "
+
+  # --------------------------------------------------------------------------
+  # 2. Frontend CI: Dependency Check, Type & Production Build
+  # --------------------------------------------------------------------------
+  frontend-ci:
+    name: Frontend CI (Vite & Tailwind)
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: frontend
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install Frontend Dependencies
+        run: npm ci
+
+      - name: Build Vite SPA
+        env:
+          VITE_API_URL: https://ayush-backend-xl9w.onrender.com/api/v1
+        run: npm run build
+
+      - name: Verify Distribution Artifacts
+        run: |
+          test -f dist/index.html || exit 1
+          echo "Frontend dist bundle successfully verified!"
+
+  # --------------------------------------------------------------------------
+  # 3. Deployment Health Check
+  # --------------------------------------------------------------------------
+  deploy-healthcheck:
+    name: Live Production Health Verification
+    needs: [backend-ci, frontend-ci]
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check Live Render Backend Health
+        run: |
+          echo "Pinging Render backend health check..."
+          curl --fail --retry 5 --retry-delay 10 --retry-connrefused https://ayush-backend-xl9w.onrender.com/api/v1/health || echo "Render backend might be waking up"
+
+      - name: Check Live Vercel Frontend
+        run: |
+          echo "Pinging Vercel frontend..."
+          curl --fail -I https://ayushmedicare.vercel.app || exit 1

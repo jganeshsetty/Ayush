@@ -10,10 +10,10 @@ from motor.motor_asyncio import AsyncIOMotorDatabase
 from bson import ObjectId
 
 # Set test environment variables
-os.environ.setdefault("MONGODB_URI", "mongodb://localhost:27017/ayush_test")
-os.environ.setdefault("JWT_SECRET", "test-secret-key-for-testing-only")
-os.environ.setdefault("SMTP_EMAIL", "test@example.com")
-os.environ.setdefault("SMTP_PASSWORD", "test-password")
+os.environ["MONGODB_URI"] = "mongodb://localhost:27017/ayush_test"
+os.environ["JWT_SECRET"] = "test-secret-key-for-testing-only"
+os.environ["SMTP_EMAIL"] = "test@example.com"
+os.environ["SMTP_PASSWORD"] = "test-password"
 
 # Import after setting env vars
 from backend.main import app
