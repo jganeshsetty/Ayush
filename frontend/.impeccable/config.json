@@ -1,0 +1,17 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "overused-font",
+        "value": "plus jakarta sans",
+        "files": [
+          "D:\\Ayush\\frontend\\src\\style.css"
+        ],
+        "createdAt": "2026-11-15T05:12:16.555Z",
+        "reason": "Stitch DESIGN.md mandates Plus Jakarta Sans as the body typeface; brief forbids altering the Stitch-generated aesthetic. Intentional, not a convergence error."
+      }
+    ]
+  }
+}

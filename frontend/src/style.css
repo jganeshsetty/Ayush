@@ -1,0 +1,176 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html, body {
+    margin: 0;
+    padding: 0;
+  }
+  body {
+    overscroll-behavior: none;
+  }
+  main > :first-child {
+    margin-top: 0 !important;
+  }
+  main > :last-child {
+    margin-bottom: 0 !important;
+  }
+  ::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Font scaling classes */
+.font-scale-normal {
+  font-size: 1rem;
+}
+.font-scale-large {
+  font-size: 1.25rem;
+}
+.font-scale-xlarge {
+  font-size: 1.5rem;
+}
+
+/* High contrast mode */
+.high-contrast {
+  --tw-bg-opacity: 1;
+  --tw-text-opacity: 1;
+}
+.high-contrast .bg-surface {
+  background-color: #1c1c19 !important;
+}
+.high-contrast .text-on-surface {
+  color: #fcf9f4 !important;
+}
+.high-contrast .bg-primary {
+  background-color: #ffc9b5 !important;
+}
+.high-contrast .text-on-primary {
+  color: #1c1c19 !important;
+}
+
+/* Focus visible styles for keyboard navigation */
+:focus-visible {
+  outline: 3px solid #8c4a2f;
+  outline-offset: 2px;
+}
+
+/* Touch target minimum size */
+.touch-target {
+  min-height: 56px;
+  min-width: 56px;
+}
+
+/* Animations */
+@keyframes pulse-soft {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+.animate-pulse-soft {
+  animation: pulse-soft 2s ease-in-out infinite;
+}
+
+/* Voice waveform animation */
+@keyframes waveform {
+  0%, 100% { height: 3px; }
+  50% { height: 8px; }
+}
+.waveform-bar {
+  animation: waveform 0.8s ease-in-out infinite;
+}
+.waveform-bar:nth-child(2) { animation-delay: 0.1s; }
+.waveform-bar:nth-child(3) { animation-delay: 0.2s; }
+.waveform-bar:nth-child(4) { animation-delay: 0.3s; }
+.waveform-bar:nth-child(5) { animation-delay: 0.4s; }
+.waveform-bar:nth-child(6) { animation-delay: 0.5s; }
+.waveform-bar:nth-child(7) { animation-delay: 0.6s; }
+.waveform-bar:nth-child(8) { animation-delay: 0.7s; }
+.waveform-bar:nth-child(9) { animation-delay: 0.8s; }
+
+/* Confirmation toggle */
+.confirm-taken {
+  background-color: #C88132 !important;
+}
+.confirm-taken:hover {
+  background-color: #B87226 !important;
+}
+
+/* Card shadow */
+.card-shadow {
+  box-shadow: 0 4px 24px -8px rgba(36, 27, 24, 0.08);
+}
+.card-shadow-hover:hover {
+  box-shadow: 0 8px 32px -8px rgba(36, 27, 24, 0.12);
+}
+
+/* Warm ambient glows */
+.glow-terracotta {
+  box-shadow: 0 4px 16px rgba(111, 51, 26, 0.18);
+}
+.glow-terracotta-lg {
+  box-shadow: 0 12px 40px -8px rgba(36, 27, 24, 0.12);
+}
+
+/* Smooth transitions */
+.transition-smooth {
+  transition: all 0.2s ease;
+}
+.transition-smooth:hover {
+  transform: scale(1.01);
+}
+.transition-smooth:active {
+  transform: scale(0.99);
+}
+
+/* Dark mode support */
+.dark .bg-surface {
+  background-color: #31302d;
+}
+.dark .text-on-surface {
+  color: #f3f0eb;
+}
+.dark .bg-surface-container-lowest {
+  background-color: #3d3c39;
+}
+.dark .bg-surface-container-low {
+  background-color: #383734;
+}
+.dark .bg-surface-container {
+  background-color: #33322f;
+}
+.dark .border-card-border\/60 {
+  border-color: rgba(235, 222, 210, 0.3);
+}
+.dark .text-charcoal-taupe {
+  color: #968781;
+}
+
+/* Language specific fonts */
+.lang-kn {
+  font-family: 'Noto Sans Kannada', 'Plus Jakarta Sans', sans-serif;
+}
+.lang-hi {
+  font-family: 'Noto Sans Devanagari', 'Plus Jakarta Sans', sans-serif;
+}
+.lang-en {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+/* Senior-friendly large tap targets */
+.btn-senior {
+  @apply min-h-[56px] min-w-[56px] px-8 py-4 rounded-2xl font-bold text-lg;
+}
+.btn-senior-icon {
+  @apply w-10 h-10 rounded-full flex items-center justify-center;
+}
+
+/* Print styles */
+@media print {
+  header, footer, nav, button, .no-print {
+    display: none !important;
+  }
+  main {
+    padding-top: 0 !important;
+  }
+}

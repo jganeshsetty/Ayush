@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="web_dashboard" name="shell-type"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+    @layer base {
+      html, body { margin:0; padding:0; }
+      body { overscroll-behavior:none; }
+      main > :first-child { margin-top:0 !important; }
+      main > :last-child { margin-bottom:0 !important; }
+    }
+    ::-webkit-scrollbar { display:none; }
+  </style>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "terracotta": {
+              DEFAULT: "#8C4A2F",
+              hover: "#783820",
+              light: "#F7EDE8",
+              subtle: "#FCEFE9"
+            },
+            "caramel": {
+              DEFAULT: "#C88132",
+              amber: "#D4904A",
+              light: "#FDF5EB",
+              border: "#F5E0C8"
+            },
+            "sand": {
+              DEFAULT: "#F4ECE1",
+              light: "#FAF5EE",
+              dark: "#EBDED2"
+            },
+            "charcoal": {
+              DEFAULT: "#241B18",
+              taupe: "#685953",
+              muted: "#968781"
+            },
+            "surface-warm": "#FAF7F2",
+            "card-border": "#EBDED2"
+          },
+          fontFamily: {
+            headline: ["Playfair Display", "serif"],
+            body: ["Plus Jakarta Sans", "sans-serif"]
+          }
+        }
+      }
+    };
+  </script>
+</head>
+<body class="bg-surface-warm font-body text-charcoal antialiased min-h-screen">
+<!-- Airy, Simplified Clean Top Navigation -->
+<header class="fixed top-0 left-0 w-full z-50 bg-[#FAF7F2]/95 backdrop-blur-md border-b border-card-border/60">
+<div class="h-20 w-full px-8 flex items-center justify-between">
+<!-- Brand & Family Space -->
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-2xl bg-terracotta text-white flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined text-[22px]">favorite</span>
+</div>
+<div class="flex flex-col">
+<span class="font-headline text-[22px] font-semibold text-charcoal tracking-tight leading-none">VitalSync</span>
+<span class="text-[12px] text-charcoal-taupe font-medium mt-1">Warm Family Care</span>
+</div>
+</div>
+<!-- Navigation Tabs -->
+<nav class="hidden md:flex items-center gap-2 p-1.5 rounded-full bg-sand">
+<a class="px-5 py-2 rounded-full text-[14px] text-charcoal-taupe hover:text-charcoal transition-colors font-medium" href="#">Family Sanctuary</a>
+<a aria-current="page" class="px-6 py-2 rounded-full text-[14px] font-semibold bg-terracotta text-white shadow-sm transition-all" href="#">Care Companion</a>
+<a class="px-5 py-2 rounded-full text-[14px] text-charcoal-taupe hover:text-charcoal transition-colors font-medium" href="#">Reminders</a>
+</nav>
+<!-- Clean User & Assistant Status -->
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-2 px-4 py-2 rounded-full bg-caramel-light border border-caramel-border text-caramel">
+<span class="material-symbols-outlined text-[18px]">favorite</span>
+<span class="text-[13px] font-semibold">Grandpa is feeling good today</span>
+</div>
+<img alt="Priya Rao" class="w-10 h-10 rounded-full object-cover ring-2 ring-terracotta/20" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA6UA7H4K1ONVH4raqxoWThYcIsZiAD8PsZbaY3OPntwcV27JGTyCM0JhssQd-k0Ko9B7Mdo0cZBSsHtOPcl6eA2KhK5oUeuY3r_7ZQOrdDbtrZNipx7YFHJI3N8PWad7X4hDfF0HGVOZLjJBlo7n8PC-ZkfVId7efW7xQFsocNEN6YC3HqjZEoAdV_Ve1E-Nzr2KtYkYqHCJYYFAZB5R8TmUu785MUBwjiqoSWK1M"/>
+</div>
+</div>
+</header>
+<!-- Left Sidebar (Warm, spacious, simplified) -->
+<aside class="fixed left-0 top-20 bottom-0 w-72 bg-[#FAF7F2] border-r border-card-border/60 z-40 flex flex-col justify-between p-6">
+<div class="flex flex-col gap-8">
+<div class="px-3 pt-2">
+<span class="text-[12px] uppercase tracking-wider text-charcoal-taupe font-bold">Daily Care Routine</span>
+</div>
+<nav class="flex flex-col gap-2">
+<a aria-current="page" class="flex items-center gap-3.5 px-4 py-3 rounded-2xl bg-terracotta text-white font-semibold shadow-sm transition-all" href="#">
+<span class="material-symbols-outlined text-[22px]">home</span>
+<span class="text-[15px]">Daily Overview</span>
+</a>
+<a class="flex items-center gap-3.5 px-4 py-3 rounded-2xl text-charcoal-taupe hover:bg-sand hover:text-charcoal transition-all font-medium" href="#">
+<span class="material-symbols-outlined text-[22px]">medication</span>
+<span class="text-[15px]">Medicines &amp; Schedule</span>
+</a>
+<a class="flex items-center gap-3.5 px-4 py-3 rounded-2xl text-charcoal-taupe hover:bg-sand hover:text-charcoal transition-all font-medium" href="#">
+<span class="material-symbols-outlined text-[22px]">calendar_month</span>
+<span class="text-[15px]">Doctor Visits</span>
+</a>
+<a class="flex items-center gap-3.5 px-4 py-3 rounded-2xl text-charcoal-taupe hover:bg-sand hover:text-charcoal transition-all font-medium" href="#">
+<span class="material-symbols-outlined text-[22px]">record_voice_over</span>
+<span class="text-[15px]">Voice Notes</span>
+</a>
+</nav>
+</div>
+<!-- Calm Senior Summary Badge -->
+<div class="p-5 rounded-2xl bg-white border border-card-border shadow-sm flex flex-col gap-2">
+<div class="flex items-center justify-between">
+<span class="text-[12px] font-bold text-caramel uppercase tracking-wide">In Your Care</span>
+<span class="w-2.5 h-2.5 rounded-full bg-caramel"></span>
+</div>
+<p class="font-headline text-[18px] text-charcoal font-semibold leading-tight mt-0.5">Grandpa Rao, 78</p>
+<span class="text-[13px] text-charcoal-taupe">Home Suite • Rested &amp; Active</span>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<div class="pl-72">
+<main class="relative pt-20 w-full min-h-screen px-10 py-10">
+<div class="w-full max-w-7xl mx-auto flex flex-col gap-10 pb-16">
+<!-- Warm Greeting Header -->
+<section class="rounded-3xl bg-white border border-card-border p-8 lg:p-10 shadow-sm flex flex-col lg:flex-row lg:items-center justify-between gap-8">
+<div class="flex items-center gap-6">
+<div class="relative">
+<img class="w-24 h-24 rounded-full object-cover shadow-sm ring-4 ring-sand" data-alt="Dignified Indian elder gentleman smiling gently" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCTFX9LipdSng7E8IafANJU-drliSFactCkASOW0BpaztDBrbleGVQpJqFG3rGDUlwCsHCajjptqhHH3dHyg5kUuQF0RbL01v0wjxSjPROZc0KNa-AUGYne30CYt9tdtNSY66HqZQRzf-PKzuvdipMkQDy2-kD4UsSa7tSHt43lXiD4TfZxp2iGaYTpyTk-d4acOuSCy_q4sF4z9QAjRnYxz3quqycLTEEFEwdUnk0"/>
+<span class="absolute bottom-1 right-1 w-6 h-6 rounded-full bg-terracotta text-white flex items-center justify-center shadow-sm" title="Everything looking wonderful">
+<span class="material-symbols-outlined text-[14px]">check</span>
+</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-3 flex-wrap">
+<h1 class="font-headline text-[32px] text-charcoal font-bold tracking-tight">Grandpa Rao</h1>
+<span class="px-3.5 py-1 rounded-full bg-sand text-charcoal text-[13px] font-semibold">Age 78</span>
+<span class="px-3.5 py-1 rounded-full bg-caramel-light border border-caramel-border text-caramel text-[13px] font-semibold">Sunny &amp; Comforted</span>
+</div>
+<p class="text-[15px] text-charcoal-taupe mt-2">
+                Primary Caregiver: <strong class="text-charcoal font-semibold">Priya Rao (Daughter)</strong> • Synced to Family Circle
+              </p>
+</div>
+</div>
+<!-- Gentle Status Widget -->
+<div class="flex items-center gap-4 bg-sand-light border border-sand px-6 py-4 rounded-2xl self-start lg:self-center">
+<div class="w-3.5 h-3.5 rounded-full bg-caramel animate-pulse"></div>
+<div class="flex flex-col">
+<span class="text-[15px] font-bold text-charcoal">Morning Routine All Set</span>
+<span class="text-[13px] text-charcoal-taupe">Medicines taken on time with breakfast</span>
+</div>
+</div>
+</section>
+<!-- Airy 3-Column Highlights -->
+<section class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<!-- Card 1: Peaceful Adherence Progress -->
+<div class="rounded-3xl bg-white border border-card-border p-8 shadow-sm flex flex-col justify-between">
+<div class="flex items-start justify-between">
+<div class="flex flex-col">
+<span class="text-[12px] uppercase tracking-wider text-charcoal-taupe font-bold">This Week's Routine</span>
+<h3 class="font-headline text-[22px] text-charcoal font-bold mt-1">96% On Track</h3>
+</div>
+<span class="px-3 py-1 rounded-full bg-caramel-light border border-caramel-border text-caramel text-[12px] font-semibold">
+                Gentle Pace
+              </span>
+</div>
+<div class="my-6 flex items-center gap-6">
+<div class="relative w-24 h-24 flex items-center justify-center shrink-0">
+<svg class="w-full h-full -rotate-90" viewbox="0 0 100 100">
+<circle class="text-sand" cx="50" cy="50" fill="transparent" r="40" stroke="currentColor" stroke-width="10"></circle>
+<circle class="text-terracotta" cx="50" cy="50" fill="transparent" r="40" stroke="currentColor" stroke-dasharray="251" stroke-dashoffset="12" stroke-linecap="round" stroke-width="10"></circle>
+</svg>
+<span class="absolute font-headline text-[22px] font-bold text-terracotta">96%</span>
+</div>
+<div class="flex flex-col gap-2">
+<div class="flex items-center gap-2.5">
+<span class="w-2.5 h-2.5 rounded-full bg-terracotta"></span>
+<span class="text-[14px] text-charcoal font-medium">27 Doses taken</span>
+</div>
+<div class="flex items-center gap-2.5">
+<span class="w-2.5 h-2.5 rounded-full bg-caramel"></span>
+<span class="text-[14px] text-charcoal-taupe">1 Shifted gracefully</span>
+</div>
+<div class="flex items-center gap-2.5">
+<span class="w-2.5 h-2.5 rounded-full bg-sand-dark"></span>
+<span class="text-[14px] text-charcoal-taupe">0 Missed</span>
+</div>
+</div>
+</div>
+<p class="text-[13px] text-charcoal-taupe border-t border-card-border/60 pt-4 mt-2">
+              Automatic pill dispenser box is full and ready.
+            </p>
+</div>
+<!-- Card 2: Upcoming Doctor Visit -->
+<div class="rounded-3xl bg-white border border-card-border p-8 shadow-sm flex flex-col justify-between">
+<div class="flex items-start justify-between">
+<div class="flex flex-col">
+<span class="text-[12px] uppercase tracking-wider text-charcoal-taupe font-bold">Upcoming Consultation</span>
+<h3 class="font-headline text-[22px] text-charcoal font-bold mt-1">Dr. Meera Sen</h3>
+</div>
+<span class="px-3 py-1 rounded-full bg-sand text-charcoal text-[12px] font-semibold">
+                Heart Health
+              </span>
+</div>
+<div class="my-5 flex flex-col">
+<div class="flex items-baseline gap-2">
+<span class="font-headline text-[38px] text-terracotta font-bold">2</span>
+<span class="text-[16px] text-charcoal-taupe font-medium">Days away</span>
+</div>
+<div class="mt-3 p-3.5 rounded-2xl bg-sand-light border border-sand flex items-center gap-3">
+<span class="material-symbols-outlined text-[20px] text-caramel">location_on</span>
+<div class="flex flex-col">
+<span class="text-[14px] font-semibold text-charcoal">Fortis Pavilion, Room 302</span>
+<span class="text-[12px] text-charcoal-taupe">Thursday, Oct 26 at 10:30 AM</span>
+</div>
+</div>
+</div>
+<div class="border-t border-card-border/60 pt-4 mt-2 flex items-center justify-between">
+<span class="text-[13px] text-charcoal-taupe font-medium">Reminder sent to Priya</span>
+<span class="material-symbols-outlined text-caramel text-[18px]">done_all</span>
+</div>
+</div>
+<!-- Card 3: Peaceful Care Support -->
+<div class="rounded-3xl bg-white border border-card-border p-8 shadow-sm flex flex-col justify-between">
+<div class="flex items-start justify-between">
+<div class="flex flex-col">
+<span class="text-[12px] uppercase tracking-wider text-charcoal-taupe font-bold">Caretaker Heartbeat</span>
+<h3 class="font-headline text-[22px] text-charcoal font-bold mt-1">Peace of Mind</h3>
+</div>
+<span class="px-3 py-1 rounded-full bg-sand text-charcoal text-[12px] font-semibold flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px] text-terracotta">check_circle</span> Active
+              </span>
+</div>
+<div class="my-5 p-4 rounded-2xl bg-caramel-light border border-caramel-border flex flex-col gap-2">
+<div class="flex items-center gap-2 text-caramel font-semibold text-[14px]">
+<span class="material-symbols-outlined text-[18px]">sentiment_satisfied</span>
+<span>Warm Reminders Enabled</span>
+</div>
+<p class="text-[13px] text-charcoal-taupe leading-relaxed">
+                If Grandpa ever forgets an afternoon dose, a pleasant musical chime plays in his room, followed by a quick note to Priya.
+              </p>
+</div>
+<div class="border-t border-card-border/60 pt-4 mt-2 flex items-center justify-between text-[13px] text-charcoal-taupe">
+<span>Alert phone:</span>
+<strong class="text-charcoal font-semibold">+1 (555) 349-8210</strong>
+</div>
+</div>
+</section>
+<!-- Main Spacious Grid: 7 / 5 Columns -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+<!-- Left Column: Medicines Schedule (7 cols) -->
+<div class="lg:col-span-7 flex flex-col gap-8">
+<div class="rounded-3xl bg-white border border-card-border p-8 lg:p-10 shadow-sm flex flex-col gap-8">
+<!-- Section Header & Add Button -->
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+<div class="flex flex-col">
+<span class="text-[12px] uppercase tracking-wider text-charcoal-taupe font-bold">Today's Medicines</span>
+<h2 class="font-headline text-[26px] text-charcoal font-bold tracking-tight">Daily Schedule</h2>
+</div>
+<button class="flex items-center gap-2 px-6 py-3 rounded-full bg-terracotta hover:bg-terracotta-hover text-white font-semibold text-[14px] transition-all shadow-sm self-start sm:self-auto" type="button">
+<span class="material-symbols-outlined text-[18px]">add</span>
+<span>Add Medicine</span>
+</button>
+</div>
+<!-- Uncluttered Slip Upload Dropzone -->
+<div class="relative group cursor-pointer rounded-2xl bg-sand-light hover:bg-sand border-2 border-dashed border-card-border p-6 transition-all">
+<div class="flex items-center gap-5">
+<div class="w-12 h-12 rounded-2xl bg-white border border-card-border flex items-center justify-center text-terracotta shadow-xs shrink-0">
+<span class="material-symbols-outlined text-[24px]">upload_file</span>
+</div>
+<div class="flex flex-col">
+<span class="text-[15px] font-bold text-charcoal">Upload Doctor's Note / Prescription Slip</span>
+<p class="text-[13px] text-charcoal-taupe mt-0.5">
+                      Snap a photo of the slip to automatically read dosages and times.
+                    </p>
+</div>
+</div>
+<input accept="image/*,.pdf" class="absolute inset-0 opacity-0 cursor-pointer" type="file"/>
+</div>
+<!-- Medicines List (Warm, breathing, gentle) -->
+<div class="flex flex-col gap-4">
+<!-- Med 1: Amlodipine (Taken) -->
+<div class="flex flex-col sm:flex-row sm:items-center justify-between p-6 rounded-2xl bg-sand-light/60 border border-sand hover:border-card-border transition-all gap-4">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-2xl bg-sand flex items-center justify-center text-terracotta shrink-0">
+<span class="material-symbols-outlined text-[24px]">pill</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-3">
+<span class="font-headline text-[18px] text-charcoal font-bold">Amlodipine</span>
+<span class="px-2.5 py-0.5 rounded-full bg-sand text-charcoal-taupe text-[12px] font-semibold">5 mg</span>
+</div>
+<span class="text-[13px] text-charcoal-taupe mt-1">Morning • For Blood Pressure</span>
+</div>
+</div>
+<div class="flex items-center gap-3 self-end sm:self-center">
+<span class="px-4 py-1.5 rounded-full bg-sand text-charcoal text-[13px] font-semibold flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-terracotta">check</span>
+<span>Taken at 8:00 AM</span>
+</span>
+</div>
+</div>
+<!-- Med 2: Metformin (Next) -->
+<div class="flex flex-col sm:flex-row sm:items-center justify-between p-6 rounded-2xl bg-white border border-card-border hover:shadow-xs transition-all gap-4">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-2xl bg-caramel-light border border-caramel-border flex items-center justify-center text-caramel shrink-0">
+<span class="material-symbols-outlined text-[24px]">restaurant</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-3">
+<span class="font-headline text-[18px] text-charcoal font-bold">Metformin</span>
+<span class="px-2.5 py-0.5 rounded-full bg-sand text-charcoal-taupe text-[12px] font-semibold">500 mg</span>
+</div>
+<span class="text-[13px] text-charcoal-taupe mt-1">Lunch • Take with food</span>
+</div>
+</div>
+<div class="flex items-center gap-3 self-end sm:self-center">
+<span class="px-4 py-1.5 rounded-full bg-caramel-light border border-caramel-border text-caramel text-[13px] font-semibold flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px]">schedule</span>
+<span>Next at 1:00 PM</span>
+</span>
+</div>
+</div>
+<!-- Med 3: Atorvastatin (Bedtime) -->
+<div class="flex flex-col sm:flex-row sm:items-center justify-between p-6 rounded-2xl bg-sand-light/60 border border-sand hover:border-card-border transition-all gap-4">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-2xl bg-sand flex items-center justify-center text-charcoal-taupe shrink-0">
+<span class="material-symbols-outlined text-[24px]">bedtime</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-3">
+<span class="font-headline text-[18px] text-charcoal font-bold">Atorvastatin</span>
+<span class="px-2.5 py-0.5 rounded-full bg-sand text-charcoal-taupe text-[12px] font-semibold">10 mg</span>
+</div>
+<span class="text-[13px] text-charcoal-taupe mt-1">Evening • Before sleep</span>
+</div>
+</div>
+<div class="flex items-center gap-3 self-end sm:self-center">
+<span class="px-4 py-1.5 rounded-full bg-sand text-charcoal-taupe text-[13px] font-medium">
+                      Tonight at 9:00 PM
+                    </span>
+</div>
+</div>
+<!-- Med 4: Vitamin D3 (Weekly) -->
+<div class="flex flex-col sm:flex-row sm:items-center justify-between p-6 rounded-2xl bg-sand-light/60 border border-sand hover:border-card-border transition-all gap-4">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-2xl bg-sand flex items-center justify-center text-caramel shrink-0">
+<span class="material-symbols-outlined text-[24px]">sunny</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-3">
+<span class="font-headline text-[18px] text-charcoal font-bold">Vitamin D3</span>
+<span class="px-2.5 py-0.5 rounded-full bg-sand text-charcoal-taupe text-[12px] font-semibold">1000 IU</span>
+</div>
+<span class="text-[13px] text-charcoal-taupe mt-1">Weekly • Sunday mornings</span>
+</div>
+</div>
+<div class="flex items-center gap-3 self-end sm:self-center">
+<span class="px-4 py-1.5 rounded-full bg-sand text-charcoal-taupe text-[13px] font-medium">
+                      Coming Sunday
+                    </span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Safety Check, Voice Note, Appointment Note (5 cols) -->
+<div class="lg:col-span-5 flex flex-col gap-8">
+<!-- Friendly Safety Check (No technical jargon) -->
+<div class="rounded-3xl bg-white border border-card-border p-8 shadow-sm flex flex-col gap-5">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-xl bg-sand flex items-center justify-center text-terracotta">
+<span class="material-symbols-outlined text-[22px]">health_and_safety</span>
+</div>
+<h3 class="font-headline text-[20px] text-charcoal font-bold">Friendly Safety Check</h3>
+</div>
+<span class="px-3 py-1 rounded-full bg-sand text-charcoal text-[12px] font-semibold">Verified</span>
+</div>
+<div class="p-5 rounded-2xl bg-caramel-light border border-caramel-border flex items-start gap-4">
+<span class="material-symbols-outlined text-[24px] text-caramel shrink-0 mt-0.5">sentiment_satisfied_alt</span>
+<div class="flex flex-col">
+<span class="text-[15px] font-bold text-charcoal">All medicines safe to take together</span>
+<p class="text-[13px] text-charcoal-taupe mt-1.5 leading-relaxed">
+                    No conflicts between morning and afternoon doses. Everything is balanced and gentle on the stomach.
+                  </p>
+</div>
+</div>
+<!-- Grandpa's Morning Voice Note -->
+<div class="p-5 rounded-2xl bg-sand-light border border-sand flex flex-col gap-3">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px] text-terracotta">record_voice_over</span>
+<span class="text-[14px] font-bold text-charcoal">Grandpa's Morning Note</span>
+</div>
+<span class="text-[12px] text-charcoal-taupe">Today, 8:06 AM</span>
+</div>
+<div class="p-3.5 rounded-xl bg-white border border-sand flex items-center gap-3">
+<button class="w-10 h-10 rounded-full bg-terracotta hover:bg-terracotta-hover text-white flex items-center justify-center shrink-0 transition-all shadow-xs" title="Listen" type="button">
+<span class="material-symbols-outlined text-[20px]">play_arrow</span>
+</button>
+<div class="flex-1 flex items-center gap-1 h-7 px-1">
+<span class="w-1 bg-terracotta rounded-full h-3"></span>
+<span class="w-1 bg-terracotta rounded-full h-5"></span>
+<span class="w-1 bg-terracotta rounded-full h-7"></span>
+<span class="w-1 bg-caramel rounded-full h-4"></span>
+<span class="w-1 bg-caramel rounded-full h-6"></span>
+<span class="w-1 bg-caramel rounded-full h-8"></span>
+<span class="w-1 bg-sand-dark rounded-full h-4"></span>
+<span class="w-1 bg-sand-dark rounded-full h-5"></span>
+<span class="w-1 bg-sand-dark rounded-full h-3"></span>
+<span class="w-1 bg-sand-dark rounded-full h-2"></span>
+</div>
+<span class="text-[12px] font-semibold text-charcoal-taupe">0:28</span>
+</div>
+<p class="text-[13px] text-charcoal-taupe italic px-1">
+                  “Feeling energetic today, Priya. Slept well and took my morning tablets with warm cinnamon water.”
+                </p>
+</div>
+</div>
+<!-- Doctor Consultation Card -->
+<div class="rounded-3xl bg-white border border-card-border p-8 shadow-sm flex flex-col gap-6">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[22px] text-terracotta">calendar_today</span>
+<h3 class="font-headline text-[20px] text-charcoal font-bold">Doctor Visit Plan</h3>
+</div>
+<span class="w-2.5 h-2.5 rounded-full bg-caramel"></span>
+</div>
+<form class="flex flex-col gap-5">
+<div class="flex flex-col gap-1.5">
+<label class="text-[13px] font-bold text-charcoal">Doctor's Name</label>
+<input class="w-full h-12 px-4 rounded-xl bg-sand-light border border-card-border text-charcoal text-[14px] focus:outline-none focus:border-terracotta focus:ring-1 focus:ring-terracotta" type="text" value="Dr. Meera Sen (Cardiologist)"/>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="flex flex-col gap-1.5">
+<label class="text-[13px] font-bold text-charcoal">Day</label>
+<input class="w-full h-12 px-4 rounded-xl bg-sand-light border border-card-border text-charcoal text-[14px] focus:outline-none focus:border-terracotta focus:ring-1 focus:ring-terracotta" type="text" value="Oct 26, 2024"/>
+</div>
+<div class="flex flex-col gap-1.5">
+<label class="text-[13px] font-bold text-charcoal">Time</label>
+<input class="w-full h-12 px-4 rounded-xl bg-sand-light border border-card-border text-charcoal text-[14px] focus:outline-none focus:border-terracotta focus:ring-1 focus:ring-terracotta" type="text" value="10:30 AM"/>
+</div>
+</div>
+<div class="flex flex-col gap-1.5">
+<label class="text-[13px] font-bold text-charcoal">Topics to discuss</label>
+<textarea class="w-full p-3.5 rounded-xl bg-sand-light border border-card-border text-charcoal text-[13px] focus:outline-none focus:border-terracotta focus:ring-1 focus:ring-terracotta resize-none leading-relaxed" rows="3">Show 30-day blood pressure diary, discuss morning energy levels, and check if 5mg Amlodipine continues to suit him well.</textarea>
+</div>
+<div class="p-4 rounded-2xl bg-sand-light border border-sand flex items-center justify-between">
+<div class="flex flex-col">
+<span class="text-[14px] font-bold text-charcoal">SMS Reminder to Priya</span>
+<span class="text-[12px] text-charcoal-taupe">Send a reminder 1 day before the visit</span>
+</div>
+<input checked="" class="w-5 h-5 accent-terracotta rounded cursor-pointer" type="checkbox"/>
+</div>
+<button class="w-full h-13 py-3.5 rounded-xl bg-terracotta hover:bg-terracotta-hover text-white font-semibold text-[15px] transition-all flex items-center justify-center gap-2 shadow-sm mt-1" type="button">
+<span class="material-symbols-outlined text-[18px]">done</span>
+<span>Save Visit Details</span>
+</button>
+</form>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

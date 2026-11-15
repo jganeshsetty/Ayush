@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="web_standard" name="shell-type"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+    @layer base {
+      html, body {
+        margin: 0;
+        padding: 0;
+        background-color: #FAF7F2;
+      }
+      body {
+        overscroll-behavior: none;
+      }
+    }
+    ::-webkit-scrollbar {
+      display: none;
+    }
+  </style>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "espresso": "#241B18",
+            "espresso-light": "#544641",
+            "terracotta": "#8C4A2F",
+            "terracotta-dark": "#783820",
+            "terracotta-soft": "#F6EAE5",
+            "caramel": "#C88132",
+            "caramel-dark": "#B87226",
+            "caramel-soft": "#FDF2E4",
+            "warm-cream": "#FAF7F2",
+            "warm-border": "#EADECE",
+            "warm-surface": "#FFFFFF",
+            "warm-surface-dim": "#F4EFEA",
+          },
+          fontFamily: {
+            display: ["Playfair Display", "serif"],
+            body: ["Plus Jakarta Sans", "sans-serif"],
+          }
+        }
+      }
+    };
+  </script>
+</head>
+<body class="bg-warm-cream font-body text-espresso antialiased min-h-screen flex flex-col justify-between selection:bg-terracotta/20 selection:text-terracotta">
+<!-- Uncluttered, Calm Top Header -->
+<header class="w-full bg-warm-surface/90 backdrop-blur-md border-b border-warm-border sticky top-0 z-40">
+<div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between gap-6">
+<!-- Calm Warm Emblem & App Name -->
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-terracotta-soft flex items-center justify-center text-terracotta border border-warm-border">
+<span class="material-symbols-outlined text-[24px]">favorite</span>
+</div>
+<div>
+<span class="font-display font-bold text-2xl tracking-tight text-espresso leading-none">VitalSync</span>
+<p class="text-xs text-espresso-light font-medium tracking-wide">Daily Care Companion</p>
+</div>
+</div>
+<!-- Gentle Navigation & Accessibility -->
+<div class="flex items-center gap-4 sm:gap-6">
+<!-- Font Size Scale -->
+<div aria-label="Text Size Switcher" class="flex items-center bg-warm-surface-dim rounded-full p-1 border border-warm-border">
+<button class="px-3 py-1 rounded-full text-sm font-semibold text-espresso-light hover:text-espresso transition-colors" id="fontNormalBtn" title="Standard text size" type="button">A</button>
+<button class="px-3.5 py-1 rounded-full text-base font-bold bg-warm-surface text-terracotta shadow-sm border border-warm-border/60 transition-all" id="fontLargeBtn" title="Large accessible text" type="button">A+</button>
+</div>
+<!-- Clean Language Choices -->
+<div class="flex items-center gap-1.5 text-sm font-medium bg-warm-surface-dim px-3 py-1.5 rounded-full border border-warm-border">
+<span class="material-symbols-outlined text-[18px] text-terracotta mr-0.5">translate</span>
+<button class="font-bold text-terracotta hover:underline px-1">English</button>
+<span class="text-warm-border">•</span>
+<button class="text-espresso-light hover:text-espresso px-1">ಕನ್ನಡ</button>
+<span class="text-warm-border">•</span>
+<button class="text-espresso-light hover:text-espresso px-1">हिन्दी</button>
+</div>
+<!-- Family Member Avatar -->
+<div class="flex items-center gap-2 pl-2 border-l border-warm-border">
+<img alt="Grandpa Rao" class="w-10 h-10 rounded-full object-cover border-2 border-terracotta/30 shadow-sm" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA6UA7H4K1ONVH4raqxoWThYcIsZiAD8PsZbaY3OPntwcV27JGTyCM0JhssQd-k0Ko9B7Mdo0cZBSsHtOPcl6eA2KhK5oUeuY3r_7ZQOrdDbtrZNipx7YFHJI3N8PWad7X4hDfF0HGVOZLjJBlo7n8PC-ZkfVId7efW7xQFsocNEN6YC3HqjZEoAdV_Ve1E-Nzr2KtYkYqHCJYYFAZB5R8TmUu785MUBwjiqoSWK1M"/>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Sanctuary Experience -->
+<main class="w-full max-w-6xl mx-auto px-6 py-8 md:py-10 flex-1 flex flex-col gap-8 md:gap-10">
+<!-- Greeting Section (Spacious & Heartfelt) -->
+<section class="bg-warm-surface border border-warm-border rounded-3xl p-8 md:p-10 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-6">
+<div class="flex items-center gap-5">
+<div class="w-16 h-16 rounded-2xl bg-caramel-soft border border-warm-border flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-caramel text-[36px]" style="font-variation-settings: 'FILL' 1;">wb_sunny</span>
+</div>
+<div>
+<div class="flex items-center gap-2 mb-1">
+<span class="text-xs uppercase tracking-widest font-bold text-caramel">Peaceful Morning</span>
+<span class="w-1.5 h-1.5 rounded-full bg-caramel/60"></span>
+<span class="text-xs tracking-wider font-medium text-espresso-light">At Home</span>
+</div>
+<h1 class="font-display text-3xl sm:text-4xl text-espresso font-bold tracking-tight">Good Morning, Grandpa Rao</h1>
+<p class="text-base sm:text-lg text-espresso-light mt-1 flex items-center gap-2 font-normal">
+<span class="material-symbols-outlined text-[20px] text-terracotta">calendar_month</span>
+<span>Wednesday, October 24</span>
+<span class="text-warm-border">•</span>
+<span>Warm &amp; Pleasant, 24°C</span>
+</p>
+</div>
+</div>
+<!-- Quick status pill -->
+<div class="self-start md:self-auto bg-warm-surface-dim px-5 py-3 rounded-2xl border border-warm-border text-espresso flex items-center gap-3">
+<span class="w-3 h-3 rounded-full bg-caramel animate-pulse"></span>
+<span class="text-sm sm:text-base font-semibold">Breakfast time medicine is ready</span>
+</div>
+</section>
+<!-- Giant Hero Card: Focus Current Medicine -->
+<section class="bg-warm-surface border border-warm-border rounded-3xl p-8 md:p-12 shadow-sm relative overflow-hidden">
+<!-- Top Dosage Pill -->
+<div class="flex flex-wrap items-center justify-between gap-4 pb-6 border-b border-warm-border">
+<div class="inline-flex items-center gap-2.5 px-5 py-2 rounded-full bg-terracotta-soft text-terracotta border border-warm-border">
+<span class="material-symbols-outlined text-[22px]" style="font-variation-settings: 'FILL' 1;">alarm</span>
+<span class="text-base sm:text-lg font-bold">8:00 AM • Morning Dose</span>
+</div>
+<div class="text-espresso-light text-base font-medium flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[20px] text-caramel">restaurant</span>
+<span>Take right after breakfast</span>
+</div>
+</div>
+<!-- Medicine Details -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center py-8">
+<!-- Tablet Visual Container -->
+<div class="lg:col-span-4 flex justify-center">
+<div class="w-full max-w-xs aspect-square rounded-3xl bg-warm-surface-dim border border-warm-border flex flex-col items-center justify-center p-6 text-center">
+<div class="w-28 h-28 rounded-full bg-warm-surface border border-warm-border flex items-center justify-center shadow-inner">
+<span class="material-symbols-outlined text-[56px] text-terracotta" style="font-variation-settings: 'FILL' 1;">medication</span>
+</div>
+<div class="mt-4">
+<span class="inline-block px-4 py-1.5 rounded-full bg-warm-surface border border-warm-border text-sm font-bold text-espresso">
+                1 Small White Tablet • 5mg
+              </span>
+<p class="text-xs text-espresso-light mt-2">Take with warm water</p>
+</div>
+</div>
+</div>
+<!-- Loving Human Directions -->
+<div class="lg:col-span-8 flex flex-col gap-5">
+<div>
+<span class="text-sm font-bold uppercase tracking-wider text-caramel">Heart &amp; Blood Pressure</span>
+<h2 class="font-display text-3xl sm:text-4xl font-bold text-espresso mt-1">Amlodipine 5mg</h2>
+</div>
+<div class="p-6 rounded-2xl bg-warm-surface-dim border border-warm-border flex items-start gap-4">
+<div class="w-12 h-12 rounded-xl bg-warm-surface border border-warm-border flex items-center justify-center text-terracotta shrink-0">
+<span class="material-symbols-outlined text-[28px]">water_drop</span>
+</div>
+<div>
+<p class="text-lg font-bold text-espresso">Simple Instructions:</p>
+<p class="text-base sm:text-lg text-espresso-light mt-1 leading-relaxed">
+                Take <strong>1 tablet</strong> with a full glass of warm water right after finishing your morning idli or toast.
+              </p>
+</div>
+</div>
+<!-- Doctor's Warm Note -->
+<div class="p-5 rounded-2xl bg-caramel-soft/40 border border-warm-border flex items-center gap-3">
+<span class="material-symbols-outlined text-[24px] text-caramel shrink-0">sentiment_satisfied</span>
+<p class="text-base text-espresso-light italic">
+              “Grandpa Rao, this little pill gently relaxes your blood vessels to keep your head clear and heart calm all day.”
+            </p>
+</div>
+</div>
+</div>
+<!-- Giant Tactile Action Buttons -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-5 pt-4">
+<!-- Mark as Taken: Warm Terracotta -->
+<button class="h-18 py-4 px-8 rounded-2xl bg-terracotta hover:bg-terracotta-dark text-white font-bold text-lg sm:text-xl shadow-sm transition-all duration-150 flex items-center justify-center gap-3 cursor-pointer" id="confirmBtn" type="button">
+<span class="w-9 h-9 rounded-full bg-white/20 flex items-center justify-center">
+<span class="material-symbols-outlined text-[26px]">check</span>
+</span>
+<span id="confirmLabel">Mark as Taken</span>
+</button>
+<!-- Play Audio: Warm Honey Caramel -->
+<button class="h-18 py-4 px-8 rounded-2xl bg-caramel hover:bg-caramel-dark text-white font-bold text-lg sm:text-xl shadow-sm transition-all duration-150 flex items-center justify-center gap-3 cursor-pointer" id="audioBtn" type="button">
+<span class="w-9 h-9 rounded-full bg-white/20 flex items-center justify-center">
+<span class="material-symbols-outlined text-[26px]">volume_up</span>
+</span>
+<span>Play Audio Instructions</span>
+</button>
+</div>
+</section>
+<!-- Clean, Uncluttered Voice Check-in Bar -->
+<section class="bg-warm-surface border border-warm-border rounded-3xl p-6 md:p-8 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-6">
+<div class="flex items-center gap-5">
+<button class="w-16 h-16 rounded-2xl bg-terracotta hover:bg-terracotta-dark text-white flex items-center justify-center shadow-sm shrink-0 transition-transform active:scale-95" id="micBtn" title="Tap to speak" type="button">
+<span class="material-symbols-outlined text-[32px]">mic</span>
+</button>
+<div>
+<div class="flex items-center gap-2 mb-1">
+<span class="w-2.5 h-2.5 rounded-full bg-caramel animate-pulse"></span>
+<span class="text-xs uppercase tracking-wider font-bold text-terracotta">Voice Assistant</span>
+</div>
+<h3 class="font-display text-xl sm:text-2xl font-bold text-espresso">Tap to speak with family or confirm your medicine</h3>
+<p class="text-sm sm:text-base text-espresso-light mt-0.5">Simply say “I took my morning pill” or “Call Priya”</p>
+</div>
+</div>
+<div class="flex items-center gap-2 self-start md:self-auto">
+<button class="px-4 py-2 rounded-full bg-warm-surface-dim hover:bg-terracotta-soft text-espresso hover:text-terracotta text-sm font-semibold border border-warm-border transition-colors" type="button">
+          “I took my medicine”
+        </button>
+<button class="px-4 py-2 rounded-full bg-warm-surface-dim hover:bg-caramel-soft text-espresso hover:text-caramel text-sm font-semibold border border-warm-border transition-colors" type="button">
+          “What's for afternoon?”
+        </button>
+</div>
+</section>
+<!-- 3 Spacious, Calm Bottom Cards -->
+<section class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<!-- Card 1: Daily Progress -->
+<div class="bg-warm-surface border border-warm-border rounded-3xl p-8 flex flex-col justify-between shadow-sm">
+<div>
+<div class="flex items-center justify-between mb-4">
+<span class="text-xs uppercase font-bold tracking-wider text-caramel">Today's Rhythm</span>
+<span class="px-3 py-1 rounded-full bg-caramel-soft border border-warm-border text-caramel text-xs font-bold">2 of 3 Done</span>
+</div>
+<h4 class="font-display text-xl sm:text-2xl font-bold text-espresso">Daily Health Routine</h4>
+<p class="text-sm text-espresso-light mt-1">Morning walking &amp; hydration completed with ease.</p>
+</div>
+<!-- Gentle Visual Circle (Warm Terracotta / Caramel) -->
+<div class="py-6 flex flex-col items-center justify-center">
+<div class="relative w-32 h-32 flex items-center justify-center">
+<svg class="w-full h-full transform -rotate-90" viewbox="0 0 100 100">
+<circle class="text-warm-surface-dim" cx="50" cy="50" fill="transparent" r="40" stroke="currentColor" stroke-width="10"></circle>
+<circle class="text-terracotta" cx="50" cy="50" fill="transparent" r="40" stroke="currentColor" stroke-dasharray="251.2" stroke-dashoffset="62.8" stroke-linecap="round" stroke-width="10"></circle>
+</svg>
+<div class="absolute inset-0 flex flex-col items-center justify-center">
+<span class="font-display font-bold text-2xl text-espresso">75%</span>
+<span class="text-[11px] text-espresso-light font-medium">Completed</span>
+</div>
+</div>
+<p class="text-xs text-espresso-light mt-3">Next: Afternoon dose at 2:00 PM</p>
+</div>
+<div class="bg-warm-surface-dim rounded-2xl p-3.5 border border-warm-border text-center text-sm font-medium text-espresso">
+          ✓ Gentle morning walk finished
+        </div>
+</div>
+<!-- Card 2: Upcoming Doctor Visit -->
+<div class="bg-warm-surface border border-warm-border rounded-3xl p-8 flex flex-col justify-between shadow-sm">
+<div>
+<div class="flex items-center justify-between mb-4">
+<span class="text-xs uppercase font-bold tracking-wider text-terracotta">Next Visit</span>
+<span class="px-3 py-1 rounded-full bg-terracotta-soft border border-warm-border text-terracotta text-xs font-bold">This Friday</span>
+</div>
+<h4 class="font-display text-xl sm:text-2xl font-bold text-espresso">Dr. Meera</h4>
+<p class="text-sm text-espresso-light mt-1">Cardiologist • Regular Health Check</p>
+</div>
+<div class="my-6 p-5 rounded-2xl bg-warm-surface-dim border border-warm-border flex flex-col gap-2.5">
+<div class="flex items-center gap-3 text-espresso font-bold text-base">
+<span class="material-symbols-outlined text-[22px] text-terracotta">event</span>
+<span>Friday at 10:30 AM</span>
+</div>
+<div class="flex items-center gap-3 text-espresso-light text-sm">
+<span class="material-symbols-outlined text-[20px] text-caramel">location_on</span>
+<span>Care Health Clinic, Indiranagar</span>
+</div>
+</div>
+<div class="bg-caramel-soft border border-warm-border rounded-2xl p-4 flex items-center gap-3">
+<span class="material-symbols-outlined text-[24px] text-caramel shrink-0">directions_car</span>
+<p class="text-xs sm:text-sm text-espresso">
+<strong>Daughter Priya is driving:</strong> She will pick you up at 10:00 AM sharp.
+          </p>
+</div>
+</div>
+<!-- Card 3: Quick Family Call -->
+<div class="bg-warm-surface border border-warm-border rounded-3xl p-8 flex flex-col justify-between shadow-sm">
+<div>
+<div class="flex items-center justify-between mb-4">
+<span class="text-xs uppercase font-bold tracking-wider text-terracotta">Always Here</span>
+<span class="px-3 py-1 rounded-full bg-caramel-soft border border-warm-border text-caramel text-xs font-bold">Available Now</span>
+</div>
+<h4 class="font-display text-xl sm:text-2xl font-bold text-espresso">Daughter Priya</h4>
+<p class="text-sm text-espresso-light mt-1">One tap away whenever you need anything.</p>
+</div>
+<div class="my-6 flex items-center gap-4 bg-warm-surface-dim p-4 rounded-2xl border border-warm-border">
+<img alt="Priya Rao" class="w-14 h-14 rounded-full object-cover border-2 border-warm-border shadow-sm shrink-0" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCCGytj7m7R7xMpwHRcQlzM-LKPVKGf58PzFnnhWETHauM0PhR6kt1BHr3WPaH55g-E85MMhp5medQ81_j_FzmUzTPZb5PJ55HYam5vV3snd_8FZ-tL68lgOo2Pi_I6g7-pyI0dPr-WyUpkDvDOTka8wsApcNECnGh3416cMJ-WfJH6Rt0_Uxu6PexKLFai_GvUBXDueyqBQzrKYdXX8I9J082tnbRfUghhMIl4rVg"/>
+<div>
+<p class="font-bold text-espresso text-base">Priya Rao</p>
+<p class="text-xs text-caramel font-semibold flex items-center gap-1.5 mt-0.5">
+<span class="w-2 h-2 rounded-full bg-caramel"></span>
+              At Home • Ready to talk
+            </p>
+</div>
+</div>
+<!-- One Big Comforting Button: Warm Terracotta -->
+<a class="h-16 rounded-2xl bg-terracotta hover:bg-terracotta-dark text-white font-bold text-lg shadow-sm transition-all flex items-center justify-center gap-3 text-center cursor-pointer" href="tel:5550192834">
+<span class="material-symbols-outlined text-[26px]">call</span>
+<span>Call Daughter Priya</span>
+</a>
+</div>
+</section>
+<!-- Soothing Reassurance Note -->
+<div class="py-4 text-center text-espresso-light text-sm flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[20px] text-terracotta">check_circle</span>
+<span>Everything is up to date and your family is connected.</span>
+</div>
+</main>
+<!-- Clean, Warm Footer -->
+<footer class="w-full bg-warm-surface border-t border-warm-border py-6 mt-6">
+<div class="max-w-6xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-espresso-light">
+<div class="flex items-center gap-2">
+<span class="font-display font-bold text-espresso text-base">VitalSync</span>
+<span>— Thoughtful family care companion</span>
+</div>
+<div class="flex items-center gap-6">
+<span class="flex items-center gap-1.5"><span class="material-symbols-outlined text-[18px] text-terracotta">lock</span> Private &amp; Secure</span>
+<span class="flex items-center gap-1.5"><span class="material-symbols-outlined text-[18px] text-caramel">support_agent</span> Help Available</span>
+</div>
+</div>
+</footer>
+<script>
+    // Confirmation micro-interaction
+    const confirmBtn = document.getElementById('confirmBtn');
+    const confirmLabel = document.getElementById('confirmLabel');
+    let taken = false;
+
+    if (confirmBtn && confirmLabel) {
+      confirmBtn.addEventListener('click', () => {
+        taken = !taken;
+        if (taken) {
+          confirmBtn.classList.remove('bg-terracotta', 'hover:bg-terracotta-dark');
+          confirmBtn.classList.add('bg-caramel', 'hover:bg-caramel-dark');
+          confirmLabel.textContent = '✓ Taken with Breakfast';
+        } else {
+          confirmBtn.classList.remove('bg-caramel', 'hover:bg-caramel-dark');
+          confirmBtn.classList.add('bg-terracotta', 'hover:bg-terracotta-dark');
+          confirmLabel.textContent = 'Mark as Taken';
+        }
+      });
+    }
+
+    // Audio Instruction Demo
+    const audioBtn = document.getElementById('audioBtn');
+    if (audioBtn) {
+      audioBtn.addEventListener('click', () => {
+        alert("🔊 Speaking clearly: 'Grandpa Rao, please take your one white tablet of Amlodipine with a glass of warm water right now.'");
+      });
+    }
+
+    // Microphone Demo
+    const micBtn = document.getElementById('micBtn');
+    if (micBtn) {
+      micBtn.addEventListener('click', () => {
+        alert("🎙️ VitalSync is listening carefully. Please speak naturally, Grandpa Rao.");
+      });
+    }
+  </script>
+</body></html>
