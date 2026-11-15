@@ -134,6 +134,13 @@ export const auth = {
   },
 
   /**
+   * Check if user is authenticated
+   */
+  isAuthenticated() {
+    return isAuthenticated();
+  },
+
+  /**
    * Get current auth state
    */
   getState() {

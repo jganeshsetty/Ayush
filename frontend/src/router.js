@@ -13,6 +13,8 @@ const routes = {
   '/caretaker': 'caretaker',
   '/senior': 'senior',
   '/senior/:profileCode': 'senior',
+  '/privacy': 'privacy',
+  '/terms': 'terms',
 };
 
 // Current route state
@@ -108,9 +110,30 @@ export function initRouter() {
   // Intercept link clicks
   document.addEventListener('click', (e) => {
     const link = e.target.closest('a[data-path], a[href^="/"]');
-    if (link && link.getAttribute('href')?.startsWith('/')) {
+    if (!link) return;
+
+    const href = link.getAttribute('href');
+    const path = link.getAttribute('data-path');
+
+    if (href && href.startsWith('/') && !href.startsWith('//')) {
       e.preventDefault();
-      navigate(link.getAttribute('href'));
+      navigate(href);
+    } else if (path) {
+      e.preventDefault();
+      const pathToRoute = {
+        'home': '/',
+        'senior-care': '/senior',
+        'senior': '/senior',
+        'family-circle': '/caretaker',
+        'sign-in': '/login',
+        'login': '/login',
+        'register': '/register',
+        'privacy': '/privacy',
+        'terms': '/terms',
+      };
+      if (pathToRoute[path]) {
+        navigate(pathToRoute[path]);
+      }
     }
   });
 }
@@ -122,4 +145,6 @@ export const ROUTES = {
   REGISTER: 'register',
   CARETAKER: 'caretaker',
   SENIOR: 'senior',
+  PRIVACY: 'privacy',
+  TERMS: 'terms',
 };

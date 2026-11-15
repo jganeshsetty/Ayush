@@ -386,6 +386,8 @@ function getLandingHTML() {
             <a class="font-label text-label-md text-on-surface-variant hover:text-primary transition-colors" data-path="family-circle" href="#">Family Circle</a>
             <a class="font-label text-label-md text-on-surface-variant hover:text-primary transition-colors" data-path="how-it-works" href="#">How It Works</a>
             <a class="font-label text-label-md text-on-surface-variant hover:text-primary transition-colors" data-path="sign-in" href="#">Sign In</a>
+            <a class="font-label text-label-md text-on-surface-variant hover:text-primary transition-colors" data-path="privacy" href="#">Privacy Policy</a>
+            <a class="font-label text-label-md text-on-surface-variant hover:text-primary transition-colors" data-path="terms" href="#">Terms of Service</a>
           </nav>
         </div>
         <div class="pt-space-md flex flex-col sm:flex-row items-center justify-between gap-space-sm text-on-surface-variant font-label text-label-sm">

@@ -11,6 +11,8 @@ import { renderLogin } from './pages/login.js';
 import { renderRegister } from './pages/register.js';
 import { renderCaretaker } from './pages/caretaker.js';
 import { renderSenior } from './pages/senior.js';
+import { renderPrivacy } from './pages/privacy.js';
+import { renderTerms } from './pages/terms.js';
 
 // Page renderer map
 const pageRenderers = {
@@ -19,6 +21,8 @@ const pageRenderers = {
   [ROUTES.REGISTER]: renderRegister,
   [ROUTES.CARETAKER]: renderCaretaker,
   [ROUTES.SENIOR]: renderSenior,
+  [ROUTES.PRIVACY]: renderPrivacy,
+  [ROUTES.TERMS]: renderTerms,
 };
 
 // Global state
@@ -173,9 +177,9 @@ async function initApp() {
 // Start app
 initApp();
 
-// Export for debugging
-window.Ayush = {
-  state,
+// Export for debugging (namespaced to avoid global pollution)
+window.__AYUSH_DEBUG__ = {
+  state: () => ({ ...state }),
   navigate,
   setUIState,
   getUIState,
