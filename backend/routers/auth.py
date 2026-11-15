@@ -1,9 +1,10 @@
 from typing import Optional
 from datetime import datetime
 
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, status, Request
 from motor.motor_asyncio import AsyncIOMotorDatabase
 from bson import ObjectId
+from pydantic import BaseModel
 
 from backend.database import get_db
 from backend.models import (
@@ -25,6 +26,12 @@ from backend.auth import (
     get_profile_by_code,
     generate_profile_code,
 )
+from backend.rate_limiter import rate_limit
+
+
+class DeleteAccountRequest(BaseModel):
+    """Request model for account deletion."""
+    password: str  # Require password confirmation for deletion
 
 router = APIRouter()
 
@@ -53,7 +60,7 @@ def profile_to_response(profile_doc: dict) -> CareProfileResponse:
     )
 
 
-@router.post("/auth/register", response_model=TokenResponse)
+@router.post("/auth/register", response_model=TokenResponse, dependencies=[Depends(rate_limit("/api/v1/auth/register"))])
 async def register(
     user_data: UserRegister,
     db: AsyncIOMotorDatabase = Depends(get_db)
@@ -85,6 +92,7 @@ async def register(
 
     # Auto-create a care profile for every registered caretaker
     profile_code = None
+    profile_id = None
     user_count = await users.count_documents({})
 
     if user_data.role == "caretaker" or user_count == 1:
@@ -123,6 +131,7 @@ async def register(
             }
 
         await profiles.insert_one(profile_doc)
+        profile_id = str(profile_doc["_id"])
 
     # Create token
     token = create_access_token({"sub": str(user_doc["_id"]), "role": user_data.role})
@@ -131,11 +140,11 @@ async def register(
         token=token,
         user=user_to_response(user_doc),
         profile_code=profile_code,
-        profile_id=str(profile_doc["_id"])
+        profile_id=profile_id
     )
 
 
-@router.post("/auth/login", response_model=TokenResponse)
+@router.post("/auth/login", response_model=TokenResponse, dependencies=[Depends(rate_limit("/api/v1/auth/login"))])
 async def login(
     login_data: UserLogin,
     db: AsyncIOMotorDatabase = Depends(get_db)
@@ -212,3 +221,47 @@ async def get_profile_by_code(
         )
 
     return profile_to_response(profile.model_dump(by_alias=True))
+
+
+@router.delete("/auth/me", status_code=status.HTTP_204_NO_CONTENT)
+async def delete_account(
+    request: DeleteAccountRequest,
+    current_user = Depends(get_current_user),
+    db: AsyncIOMotorDatabase = Depends(get_db)
+):
+    """
+    Soft-delete the current user's account.
+    Sets deleted_at timestamp, preserves referential integrity.
+    Requires password confirmation.
+    """
+    users = db.users
+    profiles = db.care_profiles
+
+    # Verify password
+    user_doc = await users.find_one({"_id": current_user.id})
+    if not user_doc:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="User not found"
+        )
+
+    if not verify_password(request.password, user_doc["password_hash"]):
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid password"
+        )
+
+    # Soft delete user
+    await users.update_one(
+        {"_id": current_user.id},
+        {"$set": {"deleted_at": datetime.utcnow(), "email": f"deleted_{user_doc['email']}"}}
+    )
+
+    # Also soft delete associated profiles where this user is the elderly user
+    # (Caretaker profiles are not deleted as they may have other caretakers)
+    await profiles.update_many(
+        {"elderly_user_id": current_user.id},
+        {"$set": {"deleted_at": datetime.utcnow()}}
+    )
+
+    return None
